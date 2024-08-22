@@ -2,15 +2,17 @@
 #include <vector>
 #include <stack>
 
+using namespace std;
+
 class HANOI {
 private:
     int sort_count;
     int n;
-    std::vector<std::stack<int>> towers;
+    vector<stack<int>> towers;
 
     void block_move(int _source, int _target, int s_val = 0, int t_val = 0) {
         sort_count++;
-        std::cout << sort_count << ". Moved block: " << _source << "(" << s_val << ") -> " << _target << "(" << t_val << ")" << std::endl;
+        cout << sort_count << ". Moved block: " << _source << "(" << s_val << ") -> " << _target << "(" << t_val << ")" << endl;
         towers[_target].push(towers[_source].top());
         towers[_source].pop();
     }
@@ -44,9 +46,9 @@ public:
 
     void reset(int _n) {
         n = _n;
-        towers[0] = std::stack<int>();
-        towers[1] = std::stack<int>();
-        towers[2] = std::stack<int>();
+        towers[0] = stack<int>();
+        towers[1] = stack<int>();
+        towers[2] = stack<int>();
         for (int i = n; i > 0; i--) {
             towers[0].push(i);
         }
@@ -54,17 +56,17 @@ public:
 
     bool move(int _source, int _target) {
         if (_source < 0 || _source >= 3 || _target < 0 || _target >= 3) {
-            std::cout << "Move fail: source or target is out of range" << std::endl;
+            cout << "Move fail: source or target is out of range" << endl;
             return false;
         }
 
         if (_source == _target) {
-            std::cout << "Move fail: source and target are the same" << std::endl;
+            cout << "Move fail: source and target are the same" << endl;
             return false;
         }
 
         if (towers[_source].empty()) {
-            std::cout << "Move fail: source is empty" << std::endl;
+            cout << "Move fail: source is empty" << endl;
             return false;
         }
 
@@ -78,7 +80,7 @@ public:
         int target_val = towers[_target].top();
 
         if (source_val > target_val) {
-            std::cout << "Move fail: source is bigger than target" << std::endl;
+            cout << "Move fail: source is bigger than target" << endl;
             return false;
         }
 
@@ -93,29 +95,37 @@ public:
 
     void print() {
         for (int i = 0; i < 3; i++) {
-            std::cout << "Tower " << i << ": ";
-            std::stack<int> temp = towers[i];
+            cout << "Tower " << i << ": ";
+            stack<int> temp = towers[i];
             while (!temp.empty()) {
-                std::cout << temp.top() << " ";
+                cout << temp.top() << " ";
                 temp.pop();
             }
-            std::cout << std::endl;
+            cout << endl;
         }
     }
 };
 
 int main() {
-    HANOI hanoi;
-    hanoi.reset(8);
+    int block_num;
+    cout << "Enter number of blocks: ";
+    cin >> block_num;
 
-    std::cout << "Before sort" << std::endl;
+    HANOI hanoi;
+    hanoi.reset(block_num);
+
+    cout << "Before sort" << endl;
     hanoi.print();
-    std::cout << std::endl;
+    cout << endl;
 
     hanoi.sort();
 
+    cout << endl;
+    cout << "After sort" << endl;
     hanoi.print();
-    std::cout << "After sort" << std::endl;
+
+    cout << endl;
+    system("pause");
 
     return 0;
 }
